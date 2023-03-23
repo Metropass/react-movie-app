@@ -5,16 +5,16 @@ import MovieComponent from "./components/MovieComponent";
 import MovieInfoComponent from "./components/MovieInfoComponent";
 import { API_KEY } from "./components/api-key";
 
-//Commented Just to test version checking
+
 
 
 function App() {
-  const [search_query, updatesearch_query] = useState("");
+  const [searchQuery, updateSearchQuery] = useState("");
 
   const [movieList, updateMovieList] = useState([]);
-  const [clicked_selected_movie, onMovieSelect] = useState();
+  const [selectedMovie, onMovieSelect] = useState();
 
-  const [timeout_value, update_timeout_value] = useState();
+  const [timeoutId, updateTimeoutId] = useState();
 
   const fetchData = async (searchString) => {
     const response = await Axios.get(
@@ -25,29 +25,28 @@ function App() {
 
   const onTextChange = (e) => {
     onMovieSelect("")
-    clearTimeout(timeout_value);
-    updatesearch_query(e.target.value);
+    clearTimeout(timeoutId);
+    updateSearchQuery(e.target.value);
     const timeout = setTimeout(() => fetchData(e.target.value), 500);
-    update_timeout_value(timeout);
+    updateTimeoutId(timeout);
   };
   return (
     <Container>
       <Header>
         <AppName>
-          <MovieImage src="/react-movie-app/ontario-logo--desktop.svg" />
+          <MovieImage src="/react-movie-app/ontario-logo--desktop.svg"/>
           React Movie App
         </AppName>
         <SearchBox>
           <SearchIcon src="/react-movie-app/ontario-logo--mobile.svg" />
           <SearchInput
             placeholder="Search Movie"
-            value={search_query}
+            value={searchQuery}
             onChange={onTextChange}
-            className="Search-Box"
           />
         </SearchBox>
       </Header>
-      {clicked_selected_movie && <MovieInfoComponent clicked_selected_movie={clicked_selected_movie} onMovieSelect={onMovieSelect}/>}
+      {selectedMovie && <MovieInfoComponent selectedMovie={selectedMovie} onMovieSelect={onMovieSelect}/>}
       <MovieListContainer>
         {movieList?.length ? (
           movieList.map((movie, index) => (
@@ -58,15 +57,16 @@ function App() {
             />
           ))
         ) : (
-          <Placeholder src="/react-movie-app/movie-icon.svg" />
+          <Placeholder src="/react-movie-app/ontario-logo--mobile.svg" />
         )}
       </MovieListContainer>
-          <Footer>
-          <u>©King's Printer 2012 - 2023</u>
-          <a href="https://www.ontario.ca/page/accessibility" className="linkcolour">Accessibility</a>
-          <a href="https://www.ontario.ca/page/privacy-statement" className="linkcolour">Privacy</a>
-          
+      <Footer>	
+          <u>©King's Printer 2012 - 2023</u>	
+          <a href="https://www.ontario.ca/page/accessibility" className="linkcolour">Accessibility</a>	
+          <a href="https://www.ontario.ca/page/privacy-statement" className="linkcolour">Privacy</a>	
+          	
           </Footer>
+
     </Container>
   );
 }

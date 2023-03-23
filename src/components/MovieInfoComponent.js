@@ -67,18 +67,17 @@ const MovieInfoComponent = (props) => {
     ).then((response) => setMovieInfo(response.data));
   }, [selectedMovie]);
   
-    let q = '';
-    if(movieInfo?.Poster == "N/A"){
-      q = noPoster;
-    } else {
-      q = movieInfo?.Poster;
-    }
+   
+if(movieInfo?.Poster == "N/A"){
+  movieInfo.Poster = noPoster;
+} 
+
 
   return (
     <Container>
       {movieInfo ? (
         <>
-          <CoverImage src={q} alt={noPoster} />
+          <CoverImage src={movieInfo?.Poster} alt={"Image Not Loaded"} />
           <InfoColumn>
             <MovieName>
               {movieInfo?.Type}: <span>{movieInfo?.Title}</span>
